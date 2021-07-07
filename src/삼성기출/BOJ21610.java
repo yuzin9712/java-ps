@@ -51,25 +51,45 @@ public class BOJ21610 {
 			int d = Integer.parseInt(st.nextToken());
 			int s = Integer.parseInt(st.nextToken()) % N;
 			
-			System.out.println(clouds);
+//			System.out.println(clouds);
 			move(d, s);
 			rain();
 			
 			copy();
 			createCloud();
-			for(int[] is: map) {
-				System.out.println(Arrays.toString(is));
-			}
-			System.out.println("====================");
+//			for(int[] is: map) {
+//				System.out.println(Arrays.toString(is));
+//			}
+//			System.out.println("====================");
 			
 		}
 		
+		int sum = calcuateSum();
+		
+		
+		System.out.println(sum);
 		
 	}
 	
+	private static int calcuateSum() {
+		int sum = 0;
+		
+		for(int i = 1; i <= N; i++) {
+			for(int j = 1; j <= N; j++) {
+				sum += map[i][j];
+			}
+		}
+		return sum;
+	}
+
 	private static void createCloud() {
 		
 		clouds = new ArrayList<Cloud>();
+		boolean[][] copyCloudy = new boolean[N + 1][N + 1];
+		
+//		for(boolean[] is : isCloudy) {
+//			System.out.println(Arrays.toString(is));
+//		}
 		
 		for(int i = 1; i <= N; i++) {
 			for(int j = 1; j <= N; j++) {
@@ -107,7 +127,7 @@ public class BOJ21610 {
 			
 			
 			map[x][y] += cnt;
-			System.out.println(c + "에 비가 " + cnt + "만큼 더해져서 " + map[x][y] + "가 되었다.");
+//			System.out.println(c + "에 비가 " + cnt + "만큼 더해져서 " + map[x][y] + "가 되었다.");
 		}
 		
 	}
@@ -132,20 +152,26 @@ public class BOJ21610 {
 
 	private static void move(int d, int s) {
 		
+		boolean[][] copyCloudy = new boolean[N + 1][N + 1];
+		
+//		System.out.println(d + "의 방향으로 " + s + "만큼 움직인다");
+		
 		for(Cloud c : clouds) {
 			int x = c.x;
 			int y = c.y;
-			isCloudy[x][y] = false;
-			
+
 			int nx = next(x, dx[d], s, 0);
 			int ny = next(y, dy[d], s, 0);
 			
-			isCloudy[nx][ny] = true;
+//			System.out.println("(" + x + ", " + y + ")에서 (" + nx + ", " + ny + ")로 이동했다.");
 			
-//			if(nx == 0)	nx = N;	if(ny == 0)	ny = N;
+			copyCloudy[nx][ny] = true;
+			
 			
 			c.x = nx;	c.y = ny;
 		}
+		
+		isCloudy = copyCloudy;
 		
 	}
 
